@@ -1,7 +1,7 @@
 /*!
- * @file CralevalCar.h
+ * @file CrgaCar.h
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Header for the CCar & CCarList classes; source of the intcompUseRank comparison class
  */
 
@@ -10,12 +10,12 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include "CproevalParameter.h"
+#include "CrgaParameter.h"
 using namespace std;
 
 
-#ifndef C_PROEVAL_CAR_H_
-#define C_PROEVAL_CAR_H_
+#ifndef C_RGA_CAR_H_
+#define C_RGA_CAR_H_
 
 
 /*!

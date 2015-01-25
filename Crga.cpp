@@ -1,33 +1,33 @@
 /*!
- * @file Cproeval.cpp
+ * @file Crga.cpp
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
- * @brief Source for the CProEval class.
+ * @version 0.8.1
+ * @brief Source for the Crga class.
  */
 
-#include "Cproeval.h"
+#include "Crga.h"
 
 // Constructor & Destructor
 /*!
- * Constructor of CProEval.
+ * Constructor of Crga.
  * The csv file containing the overall status is read and the data stored.
  *
  *
  * @param ifileOverall
  * 		The input csv filename as char array*
  */
-CProEval::CProEval(const char* ifileOverall)
+Crga::Crga(const char* ifileOverall)
 {
 	readOverall(ifileOverall);
 }
 
 /*!
- * Destructor of CProEval.
+ * Destructor of Crga.
  * Releases the previously allocated storage space.
  *
  *
  */
-CProEval::~CProEval()
+Crga::~Crga()
 {
 	delete Parameter;
 	delete Cars;
@@ -42,7 +42,7 @@ CProEval::~CProEval()
  * @param ifileOverall
  * 		The input csv filename as char array*
  */
-void CProEval::readOverall(const char* ifileOverall)
+void Crga::readOverall(const char* ifileOverall)
 {
 	int iLine = 1;		// Start line
 	const int iTitleLoc = 0;
@@ -79,15 +79,15 @@ void CProEval::readOverall(const char* ifileOverall)
  * @param sTitle
  * 		The title of the data block as string
  */
-int CProEval::setParameters(int iLine, const int iTitleLoc, const string sTitle)
+int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
 {
 	const int iNameLoc = 1;
 	const int iValueLoc = 2;
 
-	string sSeasonName = "Please enter season name";
+	string sSeasonName = "Bitte Saisonnamen eintragen und Parameter anpassen.";
 	int iNumberOfVoidResults = 2;
 	string sPageBaseDir = "Page/";
-	string sPageIndexFile = "GesamtwertungPro.html";
+	string sPageIndexFile = "Gesamtwertung.html";
 
 	while (Overall.getElement(iLine, iTitleLoc) == sTitle)
 	{
@@ -137,7 +137,7 @@ int CProEval::setParameters(int iLine, const int iTitleLoc, const string sTitle)
  * @param sTitle
  * 		The title of the data block as string
  */
-int CProEval::setMultis(int iLine, const int iTitleLoc, const string sTitle)
+int Crga::setMultis(int iLine, const int iTitleLoc, const string sTitle)
 {
 	const int iNameLoc = 1;
 	const int iAbbrLoc = 2;
@@ -179,7 +179,7 @@ int CProEval::setMultis(int iLine, const int iTitleLoc, const string sTitle)
  * @param sTitle
  * 		The title of the data block as string
  */
-int CProEval::setPoints(int iLine, const int iTitleLoc, const string sTitle)
+int Crga::setPoints(int iLine, const int iTitleLoc, const string sTitle)
 {
 	const int iPositionLoc = 1;
 	const int iPointsLoc = 2;
@@ -218,7 +218,7 @@ int CProEval::setPoints(int iLine, const int iTitleLoc, const string sTitle)
  * @param sTitle
  * 		The title of the data block as string
  */
-int CProEval::setDrivers(int iLine, const int iTitleLoc, const string sTitle)
+int Crga::setDrivers(int iLine, const int iTitleLoc, const string sTitle)
 {
 	const int iDriverNameLoc = 1;
 	const int iDriverTeamLoc = 2;
@@ -291,7 +291,7 @@ int CProEval::setDrivers(int iLine, const int iTitleLoc, const string sTitle)
  * @param sTitle
  * 		The title of the data block as string
  */
-int CProEval::setRaces(int iLine, const int iTitleLoc, const string sTitle)
+int Crga::setRaces(int iLine, const int iTitleLoc, const string sTitle)
 {
 	const int iRaceLocationLoc = 1;
 	const int iRaceDateTimeLoc = 2;
@@ -324,7 +324,7 @@ int CProEval::setRaces(int iLine, const int iTitleLoc, const string sTitle)
  * 		- TRUE right-justified
  * 		- FALSE left-justified
  */
-string CProEval::limitStringLength(string sString, unsigned int iLength, bool bRightJustified)
+string Crga::limitStringLength(string sString, unsigned int iLength, bool bRightJustified)
 {	// FUNKTIONIERT NICHT MIT UMLAUTEN: length() zählt diese doppelt!!!
 	string s = sString;
 	if (sString.length() > iLength)
@@ -363,7 +363,7 @@ string CProEval::limitStringLength(string sString, unsigned int iLength, bool bR
  * @param iDigits
  * 		The desired number decimal places as unsigned int
  */
-double CProEval::round(double dNumber, unsigned int iDigits)
+double Crga::round(double dNumber, unsigned int iDigits)
 {
     double v[] = { 1, 10, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8 };  // mgl. verlängern
     return floor(dNumber * v[iDigits] + 0.5) / v[iDigits];
@@ -378,7 +378,7 @@ double CProEval::round(double dNumber, unsigned int iDigits)
  * @return
  *		An preliminary overview of the season as string
  */
-string CProEval::toString()
+string Crga::toString()
 {
 	stringstream ss;
 	ss << "\nRLC GTL Pro " << Parameter->getSeasonName() <<
@@ -534,7 +534,7 @@ string CProEval::toString()
  * @return
  *		An overview at the end of the season as string
  */
-string CProEval::finishSeason()
+string Crga::finishSeason()
 {
 	// Variables
 	int iRaces = Race.getRaceNumber();
@@ -646,7 +646,7 @@ string CProEval::finishSeason()
  *		- The changes caused by the race results as string
  * 		- If the racelog can't be read an empty string is returned
  */
-string CProEval::readRacelog(const char* Racelog)
+string Crga::readRacelog(const char* Racelog)
 {
 	// Read racelog if unsuccessful return empty string
 	if (Race.readLog(Racelog) != 0)
@@ -732,7 +732,7 @@ string CProEval::readRacelog(const char* Racelog)
  * 		- 0: Normal termination
  * 		- -1: Couldn't open file
  */
-int CProEval::writeOverall(const char* ofileOverall)
+int Crga::writeOverall(const char* ofileOverall)
 {	// TODO CcsvList.addLines & CcsvList.writeCSV
 	ofstream file(ofileOverall);
 	if (!file.is_open())
@@ -752,18 +752,15 @@ int CProEval::writeOverall(const char* ofileOverall)
 }
 
 /*!
- * Creates the RaL pages with the class CRaLEvalHTML and it's function CRaLEvalHTML::writeHTML(bool bFinishSeason).
+ * Creates the Racersleague GTL evaluation pages with the class CrgaHTML and it's function CrgaHTML::writeHTML().
  *
  *
- * @param bFinishSeason
- * 		- False during the season
- * 		- True to create end-of-season page
  * @return
- *		The return code from CRaLEvalHTML::writeHTML(bool bFinishSeason)
+ *		The return code from CrgaHTML::writeHTML()
  */
-string CProEval::writeHTML(bool bFinishSeason)
+string Crga::writeHTML()
 {
-	CProEvalHTML Page;
+	CrgaHTML Page;
 
-	return Page.writeHTML(bFinishSeason, Parameter, Points, Cars, &Drivers, &Race);
+	return Page.writeHTML(Parameter, Points, Cars, &Drivers, &Race);
 }

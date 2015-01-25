@@ -1,21 +1,9 @@
-//      CRaLEvalHTML.h
-//
-//      Copyright 2010 Ramon Hofer <ramonhofer<at>bluewin.ch>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
+/*!
+ * @file CrgaHTML.cpp
+ * @author Ramon Hofer <ramonhofer@bluewin.ch>
+ * @version 0.8.1
+ * @brief Source for the CPageHTML class.
+ */
 
 
 #include <iostream>
@@ -24,16 +12,16 @@
 #include <boost/algorithm/string.hpp>
 #include <time.h>
 #include <exception>
-#include "CproevalParameter.h"
-#include "CproevalPoint.h"
-#include "CproevalDriver.h"
-#include "CproevalRace.h"
+#include "CrgaParameter.h"
+#include "CrgaPoint.h"
+#include "CrgaDriver.h"
+#include "CrgaRace.h"
 using namespace std;
 using namespace boost;
 
 
-#ifndef C_PROEVALHTML_H_
-#define C_PROEVALHTML_H_
+#ifndef C_RGA_HTML_H_
+#define C_RGA_HTML_H_
 
 struct compResult
 {
@@ -51,16 +39,16 @@ struct compDouble
 	{return lhs > rhs;}
 };
 
-class CProEvalHTML
+class CrgaHTML
 {
 private:
 
 public:
 	// Constructor & Destructor
-	CProEvalHTML();
-	~CProEvalHTML();
+	CrgaHTML();
+	~CrgaHTML();
 
-	string writeHTML(bool bFinishSeason, CParameter* instParameter, CPoint* instPoints, CCarList* instCars, CDriverList* instDrivers, CRace* instRace);
+	string writeHTML(CParameter* instParameter, CPoint* instPoints, CCarList* instCars, CDriverList* instDrivers, CRace* instRace);
 };
 
 class CPageHTML

@@ -1,11 +1,11 @@
 /*!
- * @file CralevalRace.cpp
+ * @file CrgaRace.cpp
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.1
+ * @version 0.8.1
  * @brief Source for the CRace class.
  */
 
-#include "CproevalRace.h"
+#include "CrgaRace.h"
 
 // Constructor & Destructor
 /*!

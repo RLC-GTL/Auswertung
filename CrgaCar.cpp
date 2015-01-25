@@ -1,11 +1,11 @@
 /*!
- * @file CralevalCar.cpp
+ * @file CrgaCar.cpp
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Source for the CCar & CCarList classes.
  */
 
-#include "CproevalCar.h"
+#include "CrgaCar.h"
 
 // Constructor & Destructor
 /*!
@@ -20,7 +20,7 @@
  * @param dMult
  * 		The multiplier as double
  * @param cParameter
- * 		The reference to CRaLEval::Parameter as CParameter*
+ * 		The reference to Crga::Parameter as CParameter*
  */
 CCar::CCar(const string sName, const string sAbr, const double dMult, CParameter* cParameter)
 {
@@ -43,7 +43,7 @@ CCar::~CCar()
 }
 
 /*!
- * Initialization of the static pointer to CRaLEval::Parameter as CParameter*
+ * Initialization of the static pointer to Crga::Parameter as CParameter*
  *
  *
  */

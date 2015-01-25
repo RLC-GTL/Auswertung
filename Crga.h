@@ -1,8 +1,8 @@
 /*!
- * @file Cproeval.h
+ * @file Crga.h
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
- * @brief Header for the CProEval class.
+ * @version 0.8.1
+ * @brief Header for the Crga class.
  */
 
 #include <iostream>
@@ -13,32 +13,33 @@
 #include <map>
 #include <math.h>
 #include "CcsvList.h"
-#include "CproevalParameter.h"
-#include "CproevalCar.h"
-#include "CproevalPoint.h"
-#include "CproevalDriver.h"
-#include "CproevalRace.h"
-#include "CproevalHTML.h"
+#include "CrgaParameter.h"
+#include "CrgaCar.h"
+#include "CrgaPoint.h"
+#include "CrgaDriver.h"
+#include "CrgaRace.h"
+#include "CrgaHTML.h"
+#include "CrgaBoP.h"
 using namespace std;
 
 
-#ifndef C_PROEVAL_H_
-#define C_PROEVAL_H_
+#ifndef C_RGA_H_
+#define C_RGA_H_
 
 
 /*!
- * @class CProEval
+ * @class Crga
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
  * @version 0.5.1
  * @brief Manages and assigns the data.
  *
  * @section DESCRIPTION
  *
- * The CProEval class reads the inputOverall file and construes the
+ * The Crga class reads the inputOverall file and construes the
  * data.
- * The RaL parameters, cars, points, drivers, teams, races are handled.
+ * The parameters, cars, points, drivers, teams, races, outputs are handled.
  */
-class CProEval
+class Crga
 {
 private:
 	// Variables
@@ -77,14 +78,14 @@ private:
 	double round(double dNumber, unsigned int iDigits);
 public:
 	// Constructor & Destructor
-	CProEval(const char* ifileOverall);
-	~CProEval();
+	Crga(const char* ifileOverall);
+	~Crga();
 
 	string toString();
 	string finishSeason();
 	string readRacelog(const char* Racelog);
 	int writeOverall(const char* ofileOverall);
-	string writeHTML(bool bFinishSeason);
+	string writeHTML();
 };
 
 

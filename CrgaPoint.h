@@ -1,19 +1,26 @@
+/*!
+ * @file CrgaPoint.cpp
+ * @author Ramon Hofer <ramonhofer@bluewin.ch>
+ * @version 0.8.1
+ * @brief Header for the CPoint class.
+ */
+
 #include <string>
 #include <sstream>
 #include <map>
 using namespace std;
 
 
-#ifndef C_PROEVAL_POINT_H_
-#define C_PROEVAL_POINT_H_
+#ifndef C_RGA_POINT_H_
+#define C_RGA_POINT_H_
 
 
 /*!
- * @file CproevalPoint.cpp
+ * @file CrgaPoint.cpp
  * @class CPoint
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
  * @version 0.3
- * @brief Read only access to RaL driver points
+ * @brief Read only access to driver points
  *
  * @section DESCRIPTION
  *

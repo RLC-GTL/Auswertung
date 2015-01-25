@@ -1,11 +1,11 @@
 /*!
- * @file CproevalParameter.cpp
+ * @file CrgaParameter.cpp
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Source for the CParameter class.
  */
 
-#include "CproevalParameter.h"
+#include "CrgaParameter.h"
 
 // Constructor & Destructor
 /*!

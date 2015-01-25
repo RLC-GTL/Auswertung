@@ -1,7 +1,7 @@
 /*!
- * @file CralevalDriver.h
+ * @file CrgaDriver.h
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Header for the CDriver, CTeam & CDriverList classes; source of the intcompOverall comparison class
  */
 
@@ -11,13 +11,13 @@
 #include <float.h>
 #include <vector>
 #include <map>
-#include "CproevalParameter.h"
-#include "CproevalCar.h"
+#include "CrgaParameter.h"
+#include "CrgaCar.h"
 using namespace std;
 
 
-#ifndef C_PROEVAL_DRIVER_H_
-#define C_PROEVAL_DRIVER_H_
+#ifndef C_RGA_DRIVER_H_
+#define C_RGA_DRIVER_H_
 
 
 /*!
@@ -75,7 +75,7 @@ struct intcompOverall
 //~ };
 
 /*!
- * @file CproevalRace.cpp
+ * @file CrgaRace.cpp
  * @struct CResult
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
  * @version 0.5.1

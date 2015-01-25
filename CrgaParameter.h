@@ -1,7 +1,7 @@
 /*!
- * @file CralevalParameter.h
+ * @file CrgaParameter.h
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Header for the CParameter class.
  */
 
@@ -10,8 +10,8 @@
 using namespace std;
 
 
-#ifndef C_PROEVAL_PARAMETER_H_
-#define C_PROEVAL_PARAMETER_H_
+#ifndef C_RGA_PARAMETER_H_
+#define C_RGA_PARAMETER_H_
 
 
 /*!

@@ -1,7 +1,7 @@
 /*!
- * @file CproevalRace.h
+ * @file CrgaRace.h
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Header for the CRace class; source of the intcompRace comparison class
  */
 
@@ -16,8 +16,8 @@ using namespace std;
 using namespace boost;
 
 
-#ifndef C_PROEVAL_RACE_H_
-#define C_PROEVAL_RACE_H_
+#ifndef C_RGA_RACE_H_
+#define C_RGA_RACE_H_
 
 
 /*!

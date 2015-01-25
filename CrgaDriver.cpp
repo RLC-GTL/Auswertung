@@ -1,11 +1,11 @@
 /*!
- * @file CralevalDriver.cpp
+ * @file CrgaDriver.cpp
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.5.1
+ * @version 0.8.1
  * @brief Source for the CDriver, CTeam & CDriverList classes.
  */
 
-#include "CproevalDriver.h"
+#include "CrgaDriver.h"
 
 // Constructor & Destructor
 CResult::CResult()
@@ -92,7 +92,7 @@ string CResult::toString()
  * @param iRaceCount
  * 		The number of races as int
  * @param cParameter
- * 		The reference to CRaLEval::Parameter as CParameter*
+ * 		The reference to Crga::Parameter as CParameter*
  */
 CDriver::CDriver(
 		string sLobbyName,
@@ -132,7 +132,7 @@ CDriver::~CDriver()
 }
 
 /*!
- * Initialization of the static pointer to CRaLEval::Parameter as CParameter*
+ * Initialization of the static pointer to Crga::Parameter as CParameter*
  *
  *
  */

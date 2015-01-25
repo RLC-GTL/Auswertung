@@ -1,175 +1,107 @@
 /*!
- * @file C2ltccevalHTML.cpp
+ * @file CrgaHTML.cpp
  * @author Ramon Hofer <ramonhofer@bluewin.ch>
- * @version 0.1.1
+ * @version 0.8.1
  * @brief Source for the CPageHTML class.
  */
 
-#include "CproevalHTML.h"
+#include "CrgaHTML.h"
 
 
 // Constructor & Destructor
 /*!
- * Constructor of C2ltccEvalHTML.
- * The series and season names are stored.
- * The series name is set to "RLC 2LTCC".
- * If the argument is empty the standard name "Testseason" is stored.
- *
- *
- * @param sSeasonName
- * 		The series name as string
- * @param instParameter
- * 		The parameters as CParameter*
- * @param instCars
- * 		The list of cars as CCarList*
- * @param instPoints
- * 		The list of points as CPoint*
- * @param instDrivers
- * 		The list of drivers as CDriverList*
- * @param instRace
- * 		The list of races as CRace*
+ * Constructor of CrgaHTML.
  */
-CProEvalHTML::CProEvalHTML()
+CrgaHTML::CrgaHTML()
 {
 
 }
 
 /*!
- * Destructor of CDriverList.
+ * Destructor of CrgaHTML.
  *
  *
  */
-CProEvalHTML::~CProEvalHTML()
+CrgaHTML::~CrgaHTML()
 {
 
 }
-
-/*!
- * Rounds a number to the desired number decimal places.
- *
- *
- * @param dNumber
- * 		The number as double
- * @param iDigits
- * 		The desired number decimal places as unsigned int
- */
-/*double CRaLEval::round(double dNumber, unsigned int iDigits)
-{
-    double v[] = { 1, 10, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8 };  // mgl. verlängern
-    return floor(dNumber * v[iDigits] + 0.5) / v[iDigits];
-}*/
 
 // Create HTML code
 /*!
- * Creates the 2LTCC HTML pages.
+ * Creates the Racersleague GTL evaluation HTML pages.
  * Creates the driver pages, the race page and the overall page during the season.
- * Creates the end-of-season page at the end of the season.
  *
  *
- * @param bFinishSeason
- * 		- False during the season
- * 		- True to create end-of-season page
  * @return
  *		The return value indicates how the function exited
  * 		- 0: Normal termination
  * 		- -1: Couldn't open file
  */
-string CProEvalHTML::writeHTML(bool bFinishSeason, CParameter* instParameter, CPoint* instPoints, CCarList* instCars, CDriverList* instDrivers, CRace* instRace)
+string CrgaHTML::writeHTML(CParameter* instParameter, CPoint* instPoints, CCarList* instCars, CDriverList* instDrivers, CRace* instRace)
 {
 	stringstream ssRet;
 	string sFileIndex = instParameter->getPageBaseDir() + instParameter->getPageIndexFile();
 
-	if (!bFinishSeason)
-	{	// Create drivers, race and overall pages
+	// Create drivers, race and overall pages
 
-		// Create overall page
-		CPageHTMLOverall PageOverall(instParameter, instPoints, instCars, instDrivers, instRace);
-		string sFileOverall = PageOverall.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber());
-		ssRet << "Creating Pro Overview Page: " << sFileOverall << endl;
+	// Create overall page
+	CPageHTMLOverall PageOverall(instParameter, instPoints, instCars, instDrivers, instRace);
+	string sFileOverall = PageOverall.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber());
+	ssRet << "Creating Pro Overview Page: " << sFileOverall << endl;
 
-		// Create most recent overall page (k+10)_DateCode[k]_SeasonName_.html
-		ofstream ofOverall(sFileOverall.c_str());
-		if (!ofOverall.is_open())
-			return "ERROR CProEvalHTML::writeHTML: While opening file\n";
-		else
-			PageOverall.getPage(ofOverall);
-		ofOverall.close();
-
-		// Create index file
-		ifstream ifOverall(sFileOverall.c_str());
-		ofstream ofIndex(sFileIndex.c_str());
-		if ((!ifOverall.is_open()) || (!ofIndex.is_open()))
-			return "ERROR CProEvalHTML::writeHTML: While opening file\n";
-		else
-		{
-			string sFileLine;
-			while (getline(ifOverall, sFileLine))
-				ofIndex << sFileLine;
-		}
-		ifOverall.close();
-		ofIndex.close();
-
-
-		// Create race page
-		CPageHTMLRace PageRace(instParameter, instPoints, instCars, instDrivers, instRace);
-		string sFileRace = PageRace.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber());
-		//~ cout << "DEBUG CProEvalHTML::writeHTML Creating " << sFileRace << endl;
-
-		// Create most recent race page (k+10)_DateCode[k]_SeasonName_TrackName[k].html
-		ofstream ofRace(sFileRace.c_str());
-		if (!ofRace.is_open())
-			return "ERROR CProEvalHTML::writeHTML: While opening file\n";
-		else
-			PageRace.getPage(ofRace);
-		ofRace.close();
-
-
-		// Create driver page
-		for (int i = 1; i <= instDrivers->getDriverCount(); i++)
-		{
-			string sDriverLobbyName = instDrivers->getDriverLobbyName(i);
-			CPageHTMLDriver PageDriver(sDriverLobbyName, instParameter, instPoints, instCars, instDrivers, instRace);
-			string sFileDriver = PageDriver.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber(), sDriverLobbyName);
-			//~ cout << "DEBUG CProEvalHTML::writeHTML Creating " << sFileDriver << endl;
-
-			// for each driver create new page: (k+10)_DateCode[k]_SeasonName_DriverName[i].html
-			ofstream ofDriver(sFileDriver.c_str());
-			if (!ofDriver.is_open())
-				return "ERROR CProEvalHTML::writeHTML: While opening file\n";
-			else
-				PageDriver.getPage(ofDriver);
-			ofDriver.close();
-		}
-	}
-
-	// End-of-season
+	// Create most recent overall page (k+10)_DateCode[k]_SeasonName_.html
+	ofstream ofOverall(sFileOverall.c_str());
+	if (!ofOverall.is_open())
+		return "ERROR CrgaHTML::writeHTML: While opening file\n";
 	else
-	{	// Create end-of-season page
-		CPageHTMLFinish PageFinish(instParameter, instPoints, instCars, instDrivers, instRace);
-		string sFileFinish = PageFinish.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber());
-		ssRet << "Creating Pro Finish Page: " << sFileFinish << endl;
+		PageOverall.getPage(ofOverall);
+	ofOverall.close();
 
-		//create new page: 99_SeasonName.html
-		ofstream ofFinish(sFileFinish.c_str());
-		if (!ofFinish.is_open())
-			return "ERROR CProEvalHTML::writeHTML: While opening file\n";
-		else
-			PageFinish.getPage(ofFinish);
-		ofFinish.close();
+	// Create index file
+	ifstream ifOverall(sFileOverall.c_str());
+	ofstream ofIndex(sFileIndex.c_str());
+	if ((!ifOverall.is_open()) || (!ofIndex.is_open()))
+		return "ERROR CrgaHTML::writeHTML: While opening file\n";
+	else
+	{
+		string sFileLine;
+		while (getline(ifOverall, sFileLine))
+			ofIndex << sFileLine;
+	}
+	ifOverall.close();
+	ofIndex.close();
 
-		// Create index file
-		ifstream ifFinish(sFileFinish.c_str());
-		ofstream ofIndex(sFileIndex.c_str());
-		if ((!ifFinish.is_open()) || (!ofIndex.is_open()))
-			return "ERROR CProEvalHTML::writeHTML: While opening file\n";
+
+	// Create race page
+	CPageHTMLRace PageRace(instParameter, instPoints, instCars, instDrivers, instRace);
+	string sFileRace = PageRace.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber());
+	//~ cout << "DEBUG CrgaHTML::writeHTML Creating " << sFileRace << endl;
+
+	// Create most recent race page (k+10)_DateCode[k]_SeasonName_TrackName[k].html
+	ofstream ofRace(sFileRace.c_str());
+	if (!ofRace.is_open())
+		return "ERROR CrgaHTML::writeHTML: While opening file\n";
+	else
+		PageRace.getPage(ofRace);
+	ofRace.close();
+
+
+	// Create driver page
+	for (int i = 1; i <= instDrivers->getDriverCount(); i++)
+	{
+		string sDriverLobbyName = instDrivers->getDriverLobbyName(i);
+		CPageHTMLDriver PageDriver(sDriverLobbyName, instParameter, instPoints, instCars, instDrivers, instRace);
+		string sFileDriver = PageDriver.getFileName(instParameter->getPageBaseDir(), instRace->getRaceNumber(), sDriverLobbyName);
+		//~ cout << "DEBUG CrgaHTML::writeHTML Creating " << sFileDriver << endl;
+
+		// for each driver create new page: (k+10)_DateCode[k]_SeasonName_DriverName[i].html
+		ofstream ofDriver(sFileDriver.c_str());
+		if (!ofDriver.is_open())
+			return "ERROR CrgaHTML::writeHTML: While opening file\n";
 		else
-		{
-			string sFileLine;
-			while (getline(ifFinish, sFileLine))
-				ofIndex << sFileLine;
-		}
-		ifFinish.close();
-		ofIndex.close();
+			PageDriver.getPage(ofDriver);
+		ofDriver.close();
 	}
 
 	return ssRet.str();

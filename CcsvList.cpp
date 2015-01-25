@@ -57,13 +57,6 @@ void CcsvList::addLine(const string lineToAdd)
 	lines.push_back(lineToAdd);
 }
 
-// Change stuff
-//~ int CcsvList::setElementValue(const string sValue, 
-		//~ const int iLine, const int iElement)
-//~ {
-	//~ return 0;
-//~ }
-
 /*!
  * Deletes the whole list.
  * 
@@ -86,23 +79,6 @@ int CcsvList::getLineCount()
 {
 	return lines.size();
 }
-
-//~ /*!
- //~ * Counts the number of elements in the line.
- //~ * 
- //~ *
- //~ * @return
- //~ *		- The number of elements in the line as int
- //~ * 		- If the line couldn't be found -1 is returned
- //~ */
-//~ int CcsvList::getElementCount(const int iLine)
-//~ {
-	//~ string sLine = getLine(iLine);
-	//~ if (sLine == "Line not found")
-		//~ return -1;
-	//~ 
-	//~ return count(sLine.begin(), sLine.end(), ',') + 1;
-//~ }
 
 /*!
  * Searches and returns the line.
