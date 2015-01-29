@@ -1,0 +1,21 @@
+# lftp script
+# Uploads RLC GTL Results
+# usage: lftp -f lftpUploadscript
+#
+
+user  ='username'
+pwd   ='password'
+folder='Auswertung-Serie/2015'
+server='migbigmagic.purespace.de'
+
+# Login
+lftp -u "$user","$pwd"  "$server"/"$folder"
+
+# Racelog
+echo "Uploading RLC GTL Results to $server/$folder/Racelogs"
+mirror -R -p Racelogs/ Racelogs
+
+# Results
+echo "Uploading RLC GTL Results to $server/$folder"
+mirror -R -p Page/ .
+
