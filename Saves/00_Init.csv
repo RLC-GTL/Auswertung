@@ -1,51 +1,42 @@
-// Parameterliste: Parameter,ParamName,ParamValue
+// Parameterliste: "Parameter",ParamName,ParamValue
+Parameter,SeriesName,Test Serie
+Parameter,SeriesNameShort,Test
 Parameter,SeasonName,Testsaison 2014
-Parameter,NumberOfVoidResults,6
+Parameter,NumberOfVoidResults,4
 Parameter,PageBaseDir,Page/
 Parameter,PageIndexFile,Gesamtwertung.html
+Parameter,PageLogo,rga_logo.png
 
-// Multis: Car,CarName,CarAbbr,Multiplier
-Car,GRM-Chevrolet Corvette GTX,Vette,1
-Car,GRM-BMW M1 TURBO,M1,1
-Car,GRM-BMW CSL TURBO,CSL,1
-Car,GRM-Chevrolet Camaro GTX,Cam,1
-Car,GRM-FORD CAPRI TURBO,Cap,1
-Car,GRM-TOYOTA CELICA TURBO,Cel,1
-Car,GRM-Ferrari 512 BB LM,512,1
-Car,GRM-Jaguar XJS Tubeframe,Jag,1
-Car,GRM-Chevrolet Monza GTX,Monza,1
-Car,GRM-Ford Mustang Cobra GTX,Must,1
-Car,GRM-DeTomaso Pantera GTX,Panti,1
-Car,GRM-Porsche 935,935,1
+// Multis: "Car",CarName,CarAbbr,Multiplier
 
-// Punkteliste: Point,Position,Points
+// Punkteliste: "Point",Position,Points
 Point,1,30
-Point,2,28
-Point,3,27
-Point,4,26
-Point,5,25
-Point,6,24
-Point,7,23
-Point,8,22
-Point,9,21
-Point,10,20
-Point,11,19
-Point,12,18
-Point,13,17
-Point,14,16
-Point,15,15
-Point,16,14
-Point,17,13
-Point,18,12
-Point,19,11
-Point,20,10
-Point,21,9
-Point,22,8
-Point,23,7
-Point,24,6
-Point,25,5
-Point,26,4
-Point,27,3
-Point,28,2
-Point,29,1
-Point,30,0
+Point,2,29
+Point,3,28
+Point,4,27
+Point,5,26
+Point,6,25
+Point,7,24
+Point,8,23
+Point,9,22
+Point,10,21
+Point,11,20
+Point,12,19
+Point,13,18
+Point,14,17
+Point,15,16
+Point,16,15
+Point,17,14
+Point,18,13
+Point,19,12
+Point,20,11
+Point,21,10
+Point,22,9
+Point,23,8
+Point,24,7
+Point,25,6
+Point,26,5
+Point,27,4
+Point,28,3
+Point,29,2
+Point,30,1

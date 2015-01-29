@@ -129,8 +129,8 @@ CPageHTML::CPageHTML(CParameter* instParameter, CPoint* instPoints, CCarList* in
 		Drivers = instDrivers;
 		Race = instRace;
 
-		SeriesName = "RLC The Duel";
-		SeriesNameShort = "RLC Duel";
+		SeriesName = Parameter->getSeriesName();
+		SeriesNameShort = Parameter->getSeriesNameShort();
 		SeasonName = Parameter->getSeasonName();
 		SeasonNameCode = SeasonName;
 		erase_all(SeasonNameCode, " ");
@@ -347,7 +347,7 @@ CPageHTMLOverall::~CPageHTMLOverall()
  */
 void CPageHTMLOverall::getPageBody(ostream &oStream, string sPageDescription)
 {
-	string sBannerName = "rlc_logo_gtl_gentlemens.png";
+	string sBannerName = Parameter->getPageLogo();
 	int iBannerWidth = 199;
 	int iBannerHeight = 122;
 
@@ -767,7 +767,7 @@ CPageHTMLDriver::~CPageHTMLDriver()
  */
 void CPageHTMLDriver::getPageBody(ostream &oStream, string sPageDescription)
 {
-	string sBannerName = "rlc_logo_gtl_gentlemens.png";
+	string sBannerName = Parameter->getPageLogo();
 	int iBannerWidth = 199;
 	int iBannerHeight = 122;
 	//~ int iTableWidth = 75;
@@ -1057,7 +1057,7 @@ CPageHTMLRace::~CPageHTMLRace()
  */
 void CPageHTMLRace::getPageBody(ostream &oStream, string sPageDescription)
 {
-	string sBannerName = "rlc_logo_gtl_gentlemens.png";
+	string sBannerName = Parameter->getPageLogo();
 	int iBannerWidth = 199;
 	int iBannerHeight = 122;
 	//~ int iTableWidth = 100;
@@ -1473,7 +1473,7 @@ CPageHTMLFinish::~CPageHTMLFinish()
  */
 void CPageHTMLFinish::getPageBody(ostream &oStream, string sPageDescription)
 {
-	string sBannerName = "rlc_logo_gtl_gentlemens.png";
+	string sBannerName = Parameter->getPageLogo();
 	int iBannerWidth = 199;
 	int iBannerHeight = 122;
 

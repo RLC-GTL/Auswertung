@@ -30,3 +30,10 @@ rlc-gtl-auswertung
 
 # Geany projectfile
 *.geany
+
+# Testfiles
+*.html
+Saves/[12]*.csv
+
+# Password
+lftpUploadscriptPassworded

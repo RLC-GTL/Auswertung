@@ -84,16 +84,27 @@ int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
 	const int iNameLoc = 1;
 	const int iValueLoc = 2;
 
-	string sSeasonName = "Bitte Saisonnamen eintragen und Parameter anpassen.";
+	string sSeriesName = "Serienname Platzhalter";
+	string sSeriesNameShort = "Ser.Nam.P.H.";
+	string sSeasonName = "Saisonnamen Platzhalter";
 	int iNumberOfVoidResults = 2;
 	string sPageBaseDir = "Page/";
 	string sPageIndexFile = "Gesamtwertung.html";
+	string sPageLogo = "rga_logo.png";
 
 	while (Overall.getElement(iLine, iTitleLoc) == sTitle)
 	{
 		string sName = Overall.getElement(iLine, iNameLoc);
 
-		if (sName == "SeasonName")
+		if (sName == "SeriesName")
+		{
+			sSeriesName = Overall.getElement(iLine, iValueLoc);
+		}
+		else if (sName == "SeriesNameShort")
+		{
+			sSeriesNameShort = Overall.getElement(iLine, iValueLoc);
+		}
+		else if (sName == "SeasonName")
 		{
 			sSeasonName = Overall.getElement(iLine, iValueLoc);
 		}
@@ -110,15 +121,22 @@ int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
 		{
 			sPageIndexFile = Overall.getElement(iLine, iValueLoc);
 		}
+		else if (sName == "PageLogo")
+		{
+			sPageLogo = Overall.getElement(iLine, iValueLoc);
+		}
 
 		iLine++;
 	}
 
 	Parameter = new CParameter(
+					sSeriesName,
+					sSeriesNameShort,
 					sSeasonName,
 					iNumberOfVoidResults,
 					sPageBaseDir,
-					sPageIndexFile);
+					sPageIndexFile,
+					sPageLogo);
 					
 	//~ cout << "DEBUG:";
 	//~ cout << Parameter->toString();
@@ -381,7 +399,7 @@ double Crga::round(double dNumber, unsigned int iDigits)
 string Crga::toString()
 {
 	stringstream ss;
-	ss << "\nRLC GTL Pro " << Parameter->getSeasonName() <<
+	ss << "\nRLC GTL " << Parameter->getSeasonName() <<
 		" (Rennen " << Race.getRaceNumber() << ")\n";
 	unsigned int issLength = ss.str().length() - 2;
 	for (unsigned int i = 0; i < issLength; i++)
@@ -540,7 +558,7 @@ string Crga::finishSeason()
 	int iRaces = Race.getRaceNumber();
 
 	stringstream ss;
-	ss << "\nRLC GTL Pro (Saisonendergebnis nach " << Race.getRaceNumber() << " Rennen)\n";
+	ss << "\nRLC GTL (Saisonendergebnis nach " << Race.getRaceNumber() << " Rennen)\n";
 	unsigned int issLength = ss.str().length() - 2;
 	for (unsigned int i = 0; i < issLength; i++)
 		ss << '-';

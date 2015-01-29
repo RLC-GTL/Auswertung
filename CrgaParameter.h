@@ -29,24 +29,33 @@ class CParameter
 {
 private:
 	// Variables
+	string SeriesName;
+	string SeriesNameShort;
 	string SeasonName;
 	int NumberOfVoidResults;
 	string PageBaseDir;
 	string PageIndexFile;
+	string PageLogo;
 public:
 	// Constructor & Destructor
 	CParameter(
+		string sSeriesName,
+		string sSeriesNameShort,
 		string sSeasonName,
 		int iNumberOfVoidResults,
 		string sPageBaseDir,
-		string sPageIndexFile);
+		string sPageIndexFile,
+		string sPageLogo);
 	~CParameter();
 
 	// Read stuff
+	string getSeriesName();
+	string getSeriesNameShort();
 	string getSeasonName();
 	int getNumberOfVoidResults();
 	string getPageBaseDir();
 	string getPageIndexFile();
+	string getPageLogo();
 	string toString();
 };
 

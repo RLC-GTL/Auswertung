@@ -6,11 +6,13 @@
 i=11
 line='*******************************************************************************'
 
+#./rlc-gtl-auswertung -i Saves/00_Init.csv
+
 clear
 echo "$line"
-./rga -r Racelogs/$i.txt Saves/00_Init.csv Saves/$i.csv
+./rlc-gtl-auswertung -r Racelogs/$i.txt Saves/00_Init.csv Saves/$i.csv
 echo "$line"
-./rga -u Saves/$i.csv Saves/$i.csv.updated
+./rlc-gtl-auswertung -u Saves/$i.csv
 echo "$line"
 #read A
 
@@ -18,9 +20,9 @@ while [ "$i" -lt 28 ]; do
 	j=$((i+1))
 	clear
 	echo "$line"
-	./rga -r Racelogs/$j.txt Saves/$i.csv Saves/$j.csv
+	./rlc-gtl-auswertung -r Racelogs/$j.txt Saves/$i.csv Saves/$j.csv
 	echo "$line"
-	./rga -u Saves/$j.csv Saves/$j.csv.updated
+	./rlc-gtl-auswertung -u Saves/$j.csv
 	echo "$line"
 #	read A
 	i=$j

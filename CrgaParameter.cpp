@@ -26,15 +26,21 @@
  * 		The negative RLT multiplier as double
  */
 CParameter::CParameter(
+	string sSeriesName,
+	string sSeriesNameShort,
 	string sSeasonName,
 	int iNumberOfVoidResults,
 	string sPageBaseDir,
-	string sPageIndexFile)
+	string sPageIndexFile,
+	string sPageLogo)
 {
+	SeriesName = sSeriesName;
+	SeriesNameShort = sSeriesNameShort;
 	SeasonName = sSeasonName;
 	NumberOfVoidResults = iNumberOfVoidResults;
 	PageBaseDir = sPageBaseDir;
 	PageIndexFile = sPageIndexFile;
+	PageLogo = sPageLogo;
 }
 
 /*!
@@ -48,6 +54,30 @@ CParameter::~CParameter()
 }
 
 // Read stuff
+/*!
+ * Returns the description of the series.
+ *
+ *
+ * @return
+ *		The description of the series as string
+ */
+string CParameter::getSeriesName()
+{
+	return SeriesName;
+}
+
+/*!
+ * Returns the short description of the series.
+ *
+ *
+ * @return
+ *		The short description of the series as string
+ */
+string CParameter::getSeriesNameShort()
+{
+	return SeriesNameShort;
+}
+
 /*!
  * Returns the description of the season.
  *
@@ -97,6 +127,18 @@ string CParameter::getPageIndexFile()
 }
 
 /*!
+ * Returns the logo file name of the HTML page.
+ *
+ *
+ * @return
+ *		The logo file name as string
+ */
+string CParameter::getPageLogo()
+{
+	return PageLogo;
+}
+
+/*!
  * Creates and returns a string with the content.
  *
  *
@@ -108,6 +150,8 @@ string CParameter::toString()
 	stringstream ss;
 	ss <<
 		"// Parameterliste: \"Parameter\",ParamName,ParamValue\n" <<
+		"Parameter,SeriesName," << getSeriesName() << endl <<
+		"Parameter,SeriesNameShort," << getSeriesNameShort() << endl <<
 		"Parameter,SeasonName," << getSeasonName() << endl <<
 		"Parameter,NumberOfVoidResults," << getNumberOfVoidResults() << endl <<
 		"Parameter,PageBaseDir," << getPageBaseDir() << endl <<
