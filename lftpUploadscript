@@ -2,11 +2,12 @@
 # Uploads RLC GTL Results
 # usage: lftp -f lftpUploadscript
 #
+# Change user, pwd, folder and server before first use.
 
 user  ='username'
 pwd   ='password'
-folder='Auswertung-Serie/2015'
-server='migbigmagic.purespace.de'
+folder='Auswertung-Serie/year'
+server='server.de'
 
 # Login
 lftp -u "$user","$pwd"  "$server"/"$folder"
