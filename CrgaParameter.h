@@ -5,8 +5,11 @@
  * @brief Header for the CParameter class.
  */
 
+#include <iostream>
+#include <vector>
 #include <string>
 #include <sstream>
+#include <math.h>
 using namespace std;
 
 
@@ -36,6 +39,9 @@ private:
 	string PageBaseDir;
 	string PageIndexFile;
 	string PageLogo;
+	double P;
+	double Exp;
+	vector<string> LobbynamesIgnored;
 public:
 	// Constructor & Destructor
 	CParameter(
@@ -45,7 +51,10 @@ public:
 		int iNumberOfVoidResults,
 		string sPageBaseDir,
 		string sPageIndexFile,
-		string sPageLogo);
+		string sPageLogo,
+		double dP,
+		double dExp,
+		vector<string> sLobbynamesIgnored);
 	~CParameter();
 
 	// Read stuff
@@ -56,6 +65,8 @@ public:
 	string getPageBaseDir();
 	string getPageIndexFile();
 	string getPageLogo();
+	bool getLobbynameRacer(string sLobbyname);
+	double getWeightChange(double dPos, double dNumOfStarters);
 	string toString();
 };
 

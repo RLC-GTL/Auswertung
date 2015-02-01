@@ -32,7 +32,10 @@ CParameter::CParameter(
 	int iNumberOfVoidResults,
 	string sPageBaseDir,
 	string sPageIndexFile,
-	string sPageLogo)
+	string sPageLogo,
+	double dP,
+	double dExp,
+	vector<string> vsLobbynamesIgnored)
 {
 	SeriesName = sSeriesName;
 	SeriesNameShort = sSeriesNameShort;
@@ -41,6 +44,9 @@ CParameter::CParameter(
 	PageBaseDir = sPageBaseDir;
 	PageIndexFile = sPageIndexFile;
 	PageLogo = sPageLogo;
+	P = dP;
+	Exp = dExp;
+	LobbynamesIgnored = vsLobbynamesIgnored;
 }
 
 /*!
@@ -139,6 +145,41 @@ string CParameter::getPageLogo()
 }
 
 /*!
+ * Returns true if the Lobbyname is associated with a driver.
+ *
+ *
+ * @return
+ *		True: Lobbyname associated with a driver
+ * 		False: Lobbyname associated with commentator
+ */
+bool CParameter::getLobbynameRacer(string sLobbyname)
+{
+	for (vector<string>::iterator it = LobbynamesIgnored.begin() ; it != LobbynamesIgnored.end(); ++it)
+	{
+		if (*it == sLobbyname)
+			return false;
+	}
+	return true;
+}
+
+/*!
+ * Returns the weight change as double.
+ * This formula is used:
+ * -(P * (((dPos-(1/2)-dNumOfStarters/2)/(dNumOfStarters/2-(1/2)))^Exp);
+ *
+ * @return
+ *		The weight change as double
+ */
+double CParameter::getWeightChange(double dPos, double dNumOfStarters)
+{
+	//-(P * (((dPos-(1/2)-dNumOfStarters/2)/(dNumOfStarters/2-(1/2)))^Exp);
+	double N2 = dNumOfStarters * 0.5;
+	double base = -(dPos-0.5-N2) / (N2-0.5);
+	double val =  P * pow(base,Exp);
+	return round(val);
+}
+
+/*!
  * Creates and returns a string with the content.
  *
  *
@@ -149,12 +190,25 @@ string CParameter::toString()
 {
 	stringstream ss;
 	ss <<
-		"// Parameterliste: \"Parameter\",ParamName,ParamValue\n" <<
+		"// Parameterliste: \"Parameter\",ParamName,ParamValue	Strafgewichte: -(P * (((n-(1/2)-N/2)/(N/2-(1/2)))^e)  n: Position; N: Anz. Starter\n" <<
 		"Parameter,SeriesName," << getSeriesName() << endl <<
 		"Parameter,SeriesNameShort," << getSeriesNameShort() << endl <<
 		"Parameter,SeasonName," << getSeasonName() << endl <<
 		"Parameter,NumberOfVoidResults," << getNumberOfVoidResults() << endl <<
 		"Parameter,PageBaseDir," << getPageBaseDir() << endl <<
-		"Parameter,PageIndexFile," << getPageIndexFile() << endl;;
+		"Parameter,PageIndexFile," << getPageIndexFile() << endl <<
+		"Parameter,P," << 50 << endl <<
+		"Parameter,Exp," << 1 << endl;
+	
+	if (LobbynamesIgnored.empty())
+		ss << "Parameter,DriverIgnore,Lobbyname\n";
+	else
+	{
+		for (vector<string>::iterator it = LobbynamesIgnored.begin() ; it != LobbynamesIgnored.end(); ++it)
+		{
+			ss << "Parameter,DriverIgnore," << *it << endl;
+		}
+	}
+	
 	return ss.str();
 }

@@ -11,6 +11,7 @@
 #include <float.h>
 #include <vector>
 #include <map>
+#include <set>
 #include "CrgaParameter.h"
 #include "CrgaCar.h"
 using namespace std;
@@ -91,18 +92,18 @@ class CResult
 private:
 	// Variables
 	string CarAbr;
-	double Mult;
+	string CarNum;
 	int Points;
 public:
 	// Constructor & Destructor
 	CResult();
 	CResult(string sResult);
-	CResult(const string sCarAbr, double dMult, const int iPoints);
+	CResult(const string sCarAbr, const string sCarNum, const int iPoints);
 	~CResult();
 
 	// Read stuff
 	string getCarAbr();
-	double getMult();
+	string getCarNum();
 	int getPoints();
 	double getResult();
 	string toString();
@@ -131,6 +132,7 @@ private:
 	int Penalty;
 	int RaceCount;
 	vector<CResult> Results;
+	set<string> CarAbbrs;
 	static CParameter* Parameter;
 	static CCarList* Cars;
 public:
@@ -159,7 +161,6 @@ public:
 	string getTeam();
 	CResult* getRaceResult(unsigned int iRaceNumber);
 	int getPenalty();
-	double getMultMean();
 	double getPoints();
 	double getOverall();
 	vector<CResult> getVoidResults(int iRaceCount);
@@ -255,7 +256,6 @@ public:
 	string getDriverTeam(string sDriverLobbyName);
 	CResult* getDriverRaceResult(string sDriverLobbyName, int iRaceNumber);
 	int getDriverPenalty(string sDriverLobbyName);
-	double getDriverMultMean(string sDriverLobbyName);
 	double getDriverPoints(string sDriverLobbyName);
 	double getDriverOverall(string sDriverLobbyName);
 	double getDriverFinish(string sDriverLobbyName, int iRaceCount);

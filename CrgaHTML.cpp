@@ -1186,7 +1186,7 @@ void CPageHTMLRace::getTableRaceDrivers(ostream &oStream)
 
 		// Multi
 		if (sCarAbr != "")
-			oStream << "<td><div align=\"center\">" << rResult->getMult() << "</div></td>\n";
+			oStream << "<td><div align=\"center\">" << "TODO CPageHTMLRace::getTableRaceDrivers" << "</div></td>\n";
 		else
 			oStream << "<td><div align=\"center\">--</div></td>\n";
 

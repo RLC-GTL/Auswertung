@@ -12,6 +12,7 @@
 #include <queue>
 #include <map>
 #include <math.h>
+#include "CrgaParameter.h"
 using namespace std;
 using namespace boost;
 
@@ -77,6 +78,7 @@ private:
 	int LapMax;
 	int LapMin;
 	multimap<double,string,intcompRace> Payoff;	// Ranking (Name,LobbyName,ChosenCar,NumberOfChosenCar,LapDistanceTravelled,RaceTime)
+	static CParameter* Parameter;
 
 	// Private function
 	multimap<double,string>::iterator getDriver(int iPosition);
@@ -94,6 +96,7 @@ public:
 	string getDriverLobbyName(int iPosition);
 	string getDriverName(int iPosition);
 	string getDriverCarChosen(int iPosition);
+	string getDriverCarNumberChosen(int iPosition);
 	int getDriverLaps(int iPosition);
 	bool getDriverBeforeFinishers(int iPosition);
 	bool getDriverDNF(int iPosition);
@@ -105,7 +108,7 @@ public:
 	string toString();
 
 	// File handling
-	int readLog(const char* Racelog);
+	int readLog(const char* Racelog, CParameter* cParameter);
 };
 
 #endif

@@ -32,6 +32,8 @@ CRace::~CRace()
 
 }
 
+CParameter* CRace::Parameter = NULL;
+
 // Private functions
 /*!
  * Searches the driver who finished the race at position iPosition and returns the driver.
@@ -148,6 +150,11 @@ string CRace::getDriverName(int iPosition)
 string CRace::getDriverCarChosen(int iPosition)
 {
 	return getDriverData(iPosition, 2);
+}
+
+string CRace::getDriverCarNumberChosen(int iPosition)
+{
+	return getDriverData(iPosition, 3);
 }
 
 /*!
@@ -349,8 +356,11 @@ string CRace::toString()
  * 		- -2: Empty file
  * 		- -3: Racelog not complete
  */
-int CRace::readLog(const char* Racelog)
+int CRace::readLog(const char* Racelog, CParameter* cParameter)
 {
+	if (Parameter == NULL)
+		Parameter = cParameter;
+	
 	// Open file
 	ifstream file(Racelog);
 	if (!file.is_open())
@@ -428,6 +438,7 @@ int CRace::readLog(const char* Racelog)
 			double dInvRaceTime = 0.0;
 			double dLapDistanceTravelled = 0.0;
 			string sDriverData;
+			string sDriverLobbyName;
 
 			while (qLines.front() != "")
 			{
@@ -439,6 +450,7 @@ int CRace::readLog(const char* Racelog)
 				{
 					getline(ssLine, sTitle, '=');
 					sDriverData = sTitle;
+					sDriverLobbyName = sTitle;
 				}
 
 				else if (sTitle == "Lobby Username")
@@ -511,8 +523,9 @@ int CRace::readLog(const char* Racelog)
 			}
 			
 			//~ cout << "DEBUG CRace::readLog: " << iLapsTravalled << "L   " << sDriverData << endl;
-
-			Payoff.insert(pair<double,string>(iLapsTravalled+dInvRaceTime,sDriverData));
+			
+			if (Parameter->getLobbynameRacer(sDriverLobbyName))
+				Payoff.insert(pair<double,string>(iLapsTravalled+dInvRaceTime,sDriverData));
 		}
 
 		// Racelog complete

@@ -66,6 +66,7 @@ private:
 	string Name;
 	string Abr;
 	double Mult;
+	double StdWeight;
 	static CParameter* Parameter;
 public:
 	// Constructor & Destructor
@@ -75,7 +76,7 @@ public:
 	// Read stuff
 	string getName();
 	string getAbr();
-	double getMult();
+	double getStdWeight();
 	string toString();
 };
 
@@ -107,7 +108,7 @@ public:
 	// Read stuff
 	int getCarCount();
 	string getName(string sAbr);
-	double getMult(string sAbr);
+	double getStdWeight(string sAbr);
 	string getAbr(string sCar);
 	string getAbrByID(int iID);
 	string toString();

@@ -75,15 +75,15 @@ string CCar::getAbr()
 }
 
 /*!
- * Returns the multiplier.
+ * Returns the standard weight.
  *
  *
  * @return
- *		The multiplier of the car as double
+ *		The standard weight of the car as double
  */
-double CCar::getMult()
+double CCar::getStdWeight()
 {
-	return Mult;
+	return StdWeight;
 }
 
 /*!
@@ -100,7 +100,7 @@ string CCar::toString()
 		"Car," <<
 		getName() << "," <<
 		getAbr() << "," <<
-		getMult();
+		getStdWeight();
 	return ss.str();
 }
 
@@ -209,20 +209,20 @@ string CCarList::getName(string sAbr)
 }
 
 /*!
- * Searches the car abbreviation and returns the multiplier.
+ * Searches the car abbreviation and returns the standard weight.
  *
  *
  * @param sAbr
  * 		The abbreviation of the car as string
  * @return
- *		- The multiplier of the car as double
+ *		- The standard weight of the car as double
  * 		- If the car couldn't be found 0.0 is returned
  */
-double CCarList::getMult(string sAbr)
+double CCarList::getStdWeight(string sAbr)
 {
 	if (getCar(sAbr) == NULL)
 		return 0.0;
-	return getCar(sAbr)->getMult();
+	return getCar(sAbr)->getStdWeight();
 }
 
 /*!
@@ -277,7 +277,7 @@ string CCarList::getAbrByID(int iID)
  */
 string CCarList::toString()
 {
-	string s = "// Multis: \"Car\",CarName,CarAbbr,Multiplier\n";
+	string s = "// Fahrzeugliste: \"Car\",CarName,CarAbbr,StandardWeight\n";
 	vector<CCar>::iterator it;
 	for (it = vCars.begin(); it < vCars.end(); it++)
 	{

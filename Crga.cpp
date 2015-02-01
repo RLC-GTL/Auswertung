@@ -91,9 +91,12 @@ int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
 	string sPageBaseDir = "Page/";
 	string sPageIndexFile = "Gesamtwertung.html";
 	string sPageLogo = "rga_logo.png";
+	double dP = 50;
+	double dExp = 1;
+	vector<string> vsLobbynamesIgnored;
 
 	while (Overall.getElement(iLine, iTitleLoc) == sTitle)
-	{
+	{	
 		string sName = Overall.getElement(iLine, iNameLoc);
 
 		if (sName == "SeriesName")
@@ -125,6 +128,22 @@ int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
 		{
 			sPageLogo = Overall.getElement(iLine, iValueLoc);
 		}
+		else if (sName == "P")
+		{
+			stringstream ss(Overall.getElement(iLine, iValueLoc));
+			ss >> dP;
+		}
+		else if (sName == "Exp")
+		{
+			stringstream ss(Overall.getElement(iLine, iValueLoc));
+			ss >> dExp;
+		}
+		else if (sName == "DriverIgnore")
+		{
+			string s = Overall.getElement(iLine, iValueLoc);
+			if (s != "Lobbyname")
+				vsLobbynamesIgnored.push_back(s);
+		}
 
 		iLine++;
 	}
@@ -136,7 +155,10 @@ int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
 					iNumberOfVoidResults,
 					sPageBaseDir,
 					sPageIndexFile,
-					sPageLogo);
+					sPageLogo,
+					dP,
+					dExp,
+					vsLobbynamesIgnored);
 					
 	//~ cout << "DEBUG:";
 	//~ cout << Parameter->toString();
@@ -267,6 +289,7 @@ int Crga::setDrivers(int iLine, const int iTitleLoc, const string sTitle)
 		while (Overall.getElement(iLine, iDriverResultLoc) != "Element not found")
 		{
 			string sCarAbr;
+			string sCarNum;
 			string sPoints;
 			int iPoints;
 
@@ -274,8 +297,9 @@ int Crga::setDrivers(int iLine, const int iTitleLoc, const string sTitle)
 			getline(ssResult, sPoints, '(');
 			stringstream ssPoints(sPoints);
 			ssPoints >> iPoints;
-			getline(ssResult, sCarAbr, ')');
-			CResult rResult(sCarAbr, Cars->getMult(sCarAbr), iPoints);
+			getline(ssResult, sCarAbr, ':');
+			getline(ssResult, sCarNum, ')');
+			CResult rResult(sCarAbr, sCarNum, iPoints);
 			vResults.push_back(rResult);
 
 			iDriverResultLoc++;
@@ -531,10 +555,10 @@ string Crga::toString()
 			string sCar = Cars->getName(sAbr);
 			ss << limitStringLength(sCar, 25, false);
 
-			double dMult = Cars->getMult(sAbr);
-			stringstream ssMult;
-			ssMult << dMult;
-			ss << limitStringLength(ssMult.str(), 15, true);
+			double dStdWeight = Cars->getStdWeight(sAbr);
+			stringstream ssStdWeight;
+			ssStdWeight << dStdWeight;
+			ss << limitStringLength(ssStdWeight.str(), 15, true);
 
 			ss << endl;
 		}
@@ -667,13 +691,16 @@ string Crga::finishSeason()
 string Crga::readRacelog(const char* Racelog)
 {
 	// Read racelog if unsuccessful return empty string
-	if (Race.readLog(Racelog) != 0)
+	if (Race.readLog(Racelog, Parameter) != 0)
 		return "";
 
 	// Variables
 	double dWinnerLaps = Race.getDriverLaps(1);
+	double dNumOfStarters = Race.getDriverCount();
 	stringstream ssRet;
 	ssRet << "MaxLaps: " << dWinnerLaps;
+	ssRet << "; ";
+	ssRet << "Racers: " << dNumOfStarters;
 	ssRet << endl;
 
 	for (int iPosition = 1; iPosition <= Race.getDriverCount(); iPosition++)
@@ -682,6 +709,7 @@ string Crga::readRacelog(const char* Racelog)
 		double dDriverLaps = Race.getDriverLaps(iPosition);
 		string sDriverLobbyName = Race.getDriverLobbyName(iPosition);
 		string sDriverCarChosen = Race.getDriverCarChosen(iPosition);
+		string sDriverCarNumChosen = Race.getDriverCarNumberChosen(iPosition);
 		int iPointEarn = 0;
 		string sCarAbr = Cars->getAbr(sDriverCarChosen);
 
@@ -709,21 +737,23 @@ string Crga::readRacelog(const char* Racelog)
 			iPointEarn = Points->getPoints(iPosition);	// Driver finished
 
 		// Update driver statistics
-		CResult rScore(sCarAbr, Cars->getMult(sCarAbr), iPointEarn);
+		CResult rScore(sCarAbr, sDriverCarNumChosen, iPointEarn);
 		Drivers.addDriverResult(sDriverLobbyName, rScore);
 		
 
 		// Prepare return string
-		
 		ssRet << iPosition << ".: " <<
 				Race.getDriverName(iPosition) << " (" << sDriverLobbyName << "), " <<
 				//sDriverCarChosen << " (" << sCarAbr << "," << Cars->getMult(sCarAbr) << "), " <<
-				sCarAbr << " (" << Cars->getMult(sCarAbr) << "), " <<
+				sCarAbr << " (#" << Race.getDriverCarNumberChosen(iPosition) << "), " <<
 				dDriverLaps << " Laps";
 		if (!Race.getDriverBeforeFinishers(iPosition))
 			ssRet << ", no Points";
 		else
 			ssRet << ", " << iPointEarn << " Point(s)";
+	
+		ssRet << ", " << Parameter->getWeightChange((double)iPosition, dNumOfStarters) << " kg added";
+	
 		ssRet << endl;
 	}
 

@@ -11,7 +11,7 @@
 CResult::CResult()
 {
 	CarAbr = "";
-	Mult = 0.0;
+	CarNum = "";
 	Points = 0;
 }
 
@@ -31,10 +31,10 @@ CResult::CResult()
 	//~ ssCarAbr >> CarAbr;
 //~ }
 
-CResult::CResult(const string sCarAbr, const double dMult, const int iPoints)
+CResult::CResult(const string sCarAbr, string sCarNum, const int iPoints)
 {
 	CarAbr = sCarAbr;
-	Mult = dMult;
+	CarNum = sCarNum;
 	Points = iPoints;
 }
 
@@ -49,14 +49,14 @@ string CResult::getCarAbr()
 	return CarAbr;
 }
 
+string CResult::getCarNum()
+{
+	return CarNum;
+}
+
 int CResult::getPoints()
 {
 	return Points;
-}
-
-double CResult::getMult()
-{
-	return Mult;
 }
 
 double CResult::getResult()
@@ -119,6 +119,11 @@ CDriver::CDriver(
 	CResult rZero;
 	for (int i = RaceCount - Results.size(); i > 0; i--)
 		Results.push_back(rZero);
+		
+	for (vector<CResult>::iterator it = vResults.begin() ; it != vResults.end(); ++it)
+	{
+		CarAbbrs.insert(it->getCarAbr());
+	}
 }
 
 /*!
@@ -150,6 +155,7 @@ CCarList* CDriver::Cars = NULL;
 void CDriver::addResult(CResult rResult)
 {
 	Results.push_back(rResult);
+	CarAbbrs.insert(rResult.getCarAbr());
 	RaceCount++;
 }
 
@@ -247,23 +253,6 @@ CResult* CDriver::getRaceResult(unsigned int iRaceNumber)
 int CDriver::getPenalty()
 {
 	return Penalty;
-}
-
-double CDriver::getMultMean()
-{
-	double dMult = 0;
-	double dRaces = 0;
-	string sCarAbr;
-	for (vector<CResult>::iterator it = Results.begin() ; it != Results.end(); ++it)
-	{
-		sCarAbr = it->getCarAbr();
-		if (sCarAbr != "")
-		{
-			dMult += Cars->getMult(sCarAbr);
-			dRaces++;
-		}
-	}
-	return dMult / dRaces;
 }
 
 /*!
@@ -996,14 +985,6 @@ int CDriverList::getDriverPenalty(string sDriverLobbyName)
 		return driver->getPenalty();
 	else
 		return 0;
-}
-
-double CDriverList::getDriverMultMean(string sDriverLobbyName)
-{
-	CDriver* driver = getDriver(sDriverLobbyName);
-	if (driver != NULL)
-		return driver->getMultMean();
-	return 0.0;
 }
 
 /*!
