@@ -56,7 +56,7 @@ void Crga::readOverall(const char* ifileOverall)
 	iLine = setParameters(iLine, iTitleLoc, "Parameter") + iUnusedLines;
 
 	// Set Multis
-	iLine = setMultis(iLine, iTitleLoc, "Car") + iUnusedLines;
+	iLine = setStdWeights(iLine, iTitleLoc, "Car") + iUnusedLines;
 
 	// Set points
 	iLine = setPoints(iLine, iTitleLoc, "Point") + iUnusedLines;
@@ -177,23 +177,23 @@ int Crga::setParameters(int iLine, const int iTitleLoc, const string sTitle)
  * @param sTitle
  * 		The title of the data block as string
  */
-int Crga::setMultis(int iLine, const int iTitleLoc, const string sTitle)
+int Crga::setStdWeights(int iLine, const int iTitleLoc, const string sTitle)
 {
 	const int iNameLoc = 1;
 	const int iAbbrLoc = 2;
-	const int iMultiLoc = 3;
+	const int iStdWeightLoc = 3;
 	vector<CCar> newCarList;
 
 	while (Overall.getElement(iLine, iTitleLoc) == sTitle)
 	{
-		double dMulti = 0.0;
-		stringstream ssMulti(Overall.getElement(iLine, iMultiLoc));
-		ssMulti >> dMulti;
+		double dStdWheight = 0.0;
+		stringstream ssStdWheight(Overall.getElement(iLine, iStdWeightLoc));
+		ssStdWheight >> dStdWheight;
 
 		CCar newCar(
 				Overall.getElement(iLine, iNameLoc),
 				Overall.getElement(iLine, iAbbrLoc),
-				dMulti,
+				dStdWheight,
 				Parameter);
 		newCarList.push_back(newCar);
 
@@ -291,15 +291,20 @@ int Crga::setDrivers(int iLine, const int iTitleLoc, const string sTitle)
 			string sCarAbr;
 			string sCarNum;
 			string sPoints;
+			string sWeightChange;
+			double dWeightChange;
 			int iPoints;
 
 			stringstream ssResult(Overall.getElement(iLine, iDriverResultLoc));
 			getline(ssResult, sPoints, '(');
 			stringstream ssPoints(sPoints);
 			ssPoints >> iPoints;
-			getline(ssResult, sCarAbr, ':');
-			getline(ssResult, sCarNum, ')');
-			CResult rResult(sCarAbr, sCarNum, iPoints);
+			getline(ssResult, sCarAbr, '#');
+			getline(ssResult, sCarNum, ':');
+			getline(ssResult, sWeightChange, ')');
+			stringstream ssWeightChange(sWeightChange);
+			ssWeightChange >> dWeightChange;
+			CResult rResult(sCarAbr, sCarNum, iPoints, dWeightChange);
 			vResults.push_back(rResult);
 
 			iDriverResultLoc++;
@@ -545,7 +550,7 @@ string Crga::toString()
 		ss << "Autoliste:\n";
 		ss << limitStringLength("Abk.", 10, false);
 		ss << limitStringLength("Wagen", 25, false);
-		ss << limitStringLength("Multi", 15, true);
+		ss << limitStringLength("StdGewicht", 15, true);
 		ss << endl;
 		for (int i = 0; i < Cars->getCarCount(); i++)
 		{
@@ -712,6 +717,7 @@ string Crga::readRacelog(const char* Racelog)
 		string sDriverCarNumChosen = Race.getDriverCarNumberChosen(iPosition);
 		int iPointEarn = 0;
 		string sCarAbr = Cars->getAbr(sDriverCarChosen);
+		double dWeightChange = Parameter->getWeightChange((double)iPosition, dNumOfStarters);
 
 		// Add driver if not already listed
 		if (!Drivers.addDriverPenalty(sDriverLobbyName, 0))
@@ -737,7 +743,7 @@ string Crga::readRacelog(const char* Racelog)
 			iPointEarn = Points->getPoints(iPosition);	// Driver finished
 
 		// Update driver statistics
-		CResult rScore(sCarAbr, sDriverCarNumChosen, iPointEarn);
+		CResult rScore(sCarAbr, sDriverCarNumChosen, iPointEarn, dWeightChange);
 		Drivers.addDriverResult(sDriverLobbyName, rScore);
 		
 
@@ -752,7 +758,7 @@ string Crga::readRacelog(const char* Racelog)
 		else
 			ssRet << ", " << iPointEarn << " Point(s)";
 	
-		ssRet << ", " << Parameter->getWeightChange((double)iPosition, dNumOfStarters) << " kg added";
+		ssRet << ", " << dWeightChange << " kg added";
 	
 		ssRet << endl;
 	}

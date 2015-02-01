@@ -94,11 +94,12 @@ private:
 	string CarAbr;
 	string CarNum;
 	int Points;
+	double WeightChange;
 public:
 	// Constructor & Destructor
 	CResult();
 	CResult(string sResult);
-	CResult(const string sCarAbr, const string sCarNum, const int iPoints);
+	CResult(const string sCarAbr, const string sCarNum, const int iPoints, const double dWeightChange);
 	~CResult();
 
 	// Read stuff
@@ -106,6 +107,7 @@ public:
 	string getCarNum();
 	int getPoints();
 	double getResult();
+	double getWeightChange();
 	string toString();
 };
 
@@ -166,6 +168,10 @@ public:
 	vector<CResult> getVoidResults(int iRaceCount);
 	double getFinish(int iRaceCount);
 	int getRaceCount();
+	int getRaceCount(string sCarAbr);
+	int getCarCount();
+	string getCarAbr(int iCarCount);
+	double getCarWeight(int iCarCount);
 	string toString();
 };
 
@@ -261,6 +267,10 @@ public:
 	double getDriverFinish(string sDriverLobbyName, int iRaceCount);
 	vector<CResult> getDriverVoidResults(string sDriverLobbyName, int iRaceCount);
 	int getDriverRaceCount(string sDriverLobbyName);
+	int getDriverRaceCount(string sDriverLobbyName, string sCarAbr);
+	int getDriverCarCount(string sDriverLobbyName);
+	string getDriverCarAbr(string sDriverLobbyName, int iCarCount);
+	double getDriverCarWeight(string sDriverLobbyName, int iCarCount);
 	int getTeamCount();
 	string getTeamName(int iRank);
 	string getTeamNameFinish(int iRank, int iRaceCount);

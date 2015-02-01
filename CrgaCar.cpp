@@ -22,11 +22,11 @@
  * @param cParameter
  * 		The reference to Crga::Parameter as CParameter*
  */
-CCar::CCar(const string sName, const string sAbr, const double dMult, CParameter* cParameter)
+CCar::CCar(const string sName, const string sAbr, const double dStdWeight, CParameter* cParameter)
 {
 	Name = sName;
 	Abr = sAbr;
-	Mult = dMult;
+	StdWeight = dStdWeight;
 
 	if (Parameter == NULL)
 		Parameter = cParameter;

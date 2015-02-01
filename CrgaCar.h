@@ -65,12 +65,11 @@ private:
 	// Variables
 	string Name;
 	string Abr;
-	double Mult;
 	double StdWeight;
 	static CParameter* Parameter;
 public:
 	// Constructor & Destructor
-	CCar(const string sName, const string sAbr, const double dMult, CParameter* cParameter);
+	CCar(const string sName, const string sAbr, const double dStdWeight, CParameter* cParameter);
 	~CCar();
 
 	// Read stuff

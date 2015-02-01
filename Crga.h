@@ -58,7 +58,7 @@ private:
 			int iLine,
 			const int iTitleLoc,
 			const string sTitle);	//After readOverall
-	int setMultis(
+	int setStdWeights(
 			int iLine,
 			const int iTitleLoc,
 			const string sTitle);

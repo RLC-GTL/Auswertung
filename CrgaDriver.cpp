@@ -13,6 +13,7 @@ CResult::CResult()
 	CarAbr = "";
 	CarNum = "";
 	Points = 0;
+	WeightChange = 0;
 }
 
 //~ CResult::CResult(string sResult)
@@ -31,11 +32,12 @@ CResult::CResult()
 	//~ ssCarAbr >> CarAbr;
 //~ }
 
-CResult::CResult(const string sCarAbr, string sCarNum, const int iPoints)
+CResult::CResult(const string sCarAbr, string sCarNum, const int iPoints, const double dWeightChange)
 {
 	CarAbr = sCarAbr;
 	CarNum = sCarNum;
 	Points = iPoints;
+	WeightChange = dWeightChange;
 }
 
 CResult::~CResult()
@@ -64,10 +66,15 @@ double CResult::getResult()
 	return Points;
 }
 
+double CResult::getWeightChange()
+{
+	return WeightChange;
+}
+
 string CResult::toString()
 {
 	stringstream ss;
-	ss << Points << "(" << CarAbr << ")";
+	ss << Points << "(" << CarAbr << "#" << CarNum << ":" << WeightChange << ")";
 	return ss.str();
 }
 
@@ -359,6 +366,43 @@ double CDriver::getFinish(int iRaceCount)
 int CDriver::getRaceCount()
 {
 	return RaceCount;
+}
+
+int CDriver::getRaceCount(string sCarAbr)
+{
+	int i = 0;
+	for (vector<CResult>::iterator it = Results.begin() ; it != Results.end(); ++it)
+	{
+		if (it->getCarAbr() == sCarAbr)
+			++i;
+	}
+	
+	return i;
+}
+
+int CDriver::getCarCount()
+{
+	return CarAbbrs.size();
+}
+
+string CDriver::getCarAbr(int iCarCount)
+{
+	string s = "";
+	for (set<string>::iterator it=CarAbbrs.begin(); (iCarCount-- >= 0) && it!=CarAbbrs.end(); ++it)
+		s = *it;
+	return s;
+}
+
+double CDriver::getCarWeight(int iCarCount)
+{
+	string sCarAbr = getCarAbr(iCarCount);
+	double dWeight = Cars->getStdWeight(sCarAbr);
+	for (vector<CResult>::iterator it=Results.begin(); it!=Results.end(); ++it)
+	{
+		if (it->getCarAbr() == sCarAbr)
+			dWeight += it->getWeightChange();
+	}
+	return dWeight;
 }
 
 /*!
@@ -1074,6 +1118,43 @@ int CDriverList::getDriverRaceCount(string sDriverLobbyName)
 	else
 		return -1;
 }
+
+int CDriverList::getDriverRaceCount(string sDriverLobbyName, string sCarAbr)
+{
+	CDriver* driver = getDriver(sDriverLobbyName);
+	if (driver != NULL)
+		return driver->getRaceCount(sCarAbr);
+	else
+		return -1;
+}
+
+int CDriverList::getDriverCarCount(string sDriverLobbyName)
+{
+	CDriver* driver = getDriver(sDriverLobbyName);
+	if (driver != NULL)
+		return driver->getCarCount();
+	else
+		return -1;
+}
+
+string CDriverList::getDriverCarAbr(string sDriverLobbyName, int iCarCount)
+{
+	CDriver* driver = getDriver(sDriverLobbyName);
+	if (driver != NULL)
+		return driver->getCarAbr(iCarCount);
+	else
+		return "";
+}
+
+double CDriverList::getDriverCarWeight(string sDriverLobbyName, int iCarCount)
+{
+	CDriver* driver = getDriver(sDriverLobbyName);
+	if (driver != NULL)
+		return driver->getCarWeight(iCarCount);
+	else
+		return 0.0;
+}
+
 
 /*!
  * Counts the number of teams.

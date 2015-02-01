@@ -102,8 +102,8 @@ class CPageHTMLDriver : protected CPageHTML
 private:
 	string DriverLobbyName;
 	void getPageBody(ostream &oStream, string sPageDescription);
-	void getTableDriverMultis(ostream &oStream);
 	void getTableDriverRaces(ostream &oStream);
+	void getTableDriverCars(ostream &oStream);
 public:
 	CPageHTMLDriver(string sDriverLobbyName, CParameter* instParameter, CPoint* instPoints, CCarList* instCars, CDriverList* instDrivers, CRace* instRace);
 	~CPageHTMLDriver();

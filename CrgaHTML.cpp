@@ -785,14 +785,22 @@ void CPageHTMLDriver::getPageBody(ostream &oStream, string sPageDescription)
 	//~ oStream << "<table align=\"center\"; style=\"text-align: left; width: " << iTableWidth << "%;\" border=\"0\" cellpadding=\"1\" cellspacing=\"1\">\n";
 
 	//~ oStream << "<tr>\n";
+	
+	getPageCaption(oStream, "Fahrerdetails " + Drivers->getDriverName(DriverLobbyName), 1);
+	oStream << "<br>\n";
 
 	// Driver details table
 	//~ oStream << "<td valign=\"top\">\n";
-	getPageCaption(oStream, "Fahrerdetails " + Drivers->getDriverName(DriverLobbyName), 1);
+	getPageCaption(oStream, "Laufdetails", 2);
 	oStream << "<br>\n";
 	getTableDriverRaces(oStream);
 	oStream << "<br><br>\n";
 	//~ oStream << "</td>\n";
+	
+	getPageCaption(oStream, "Fahrzeugliste", 2);
+	oStream << "<br>\n";
+	getTableDriverCars(oStream);
+	oStream << "<br><br>\n";
 
 	// Driver details table
 	//~ oStream << "<td valign=\"top\">\n";
@@ -830,8 +838,8 @@ void CPageHTMLDriver::getTableDriverRaces(ostream &oStream)
 {
 	int iWidthRace = 5;
 	int iWidthTrack = 15;
-	//~ int iWidthCar = 15;
-	//~ int iWidthMulti = 5;
+	int iWidthCar = 15;
+	int iWidthWeightChange = 15;
 	int iWidthRacePos = 5;
 	int iWidthRacePoints = 5;
 	//~ int iWidthOverall = 5;
@@ -844,8 +852,8 @@ void CPageHTMLDriver::getTableDriverRaces(ostream &oStream)
 	oStream << "<tr>\n";
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthRace << "%;\">Lauf</th>\n";
 	oStream << "<th scope=\"col\"; align=\"left\"; style=\"width: " << iWidthTrack << "%;\">Strecke</th>\n";
-	//~ oStream << "<th scope=\"col\"; align=\"left\"; style=\"width: " << iWidthCar << "%;\">Fahrzeug</th>\n";
-	//~ oStream << "<th scope=\"col\"; style=\"width: " << iWidthMulti << "%;\">Multi</th>\n";
+	oStream << "<th scope=\"col\"; align=\"left\"; style=\"width: " << iWidthCar << "%;\">Fahrzeug</th>\n";
+	oStream << "<th scope=\"col\"; style=\"width: " << iWidthWeightChange << "%;\">Gewichtsänderung [kg]</th>\n";
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthRacePos << "%;\">Rennpos.</th>\n";
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthRacePoints << "%;\">Punkte</th>\n";
 	//~ oStream << "<th scope=\"col\"; style=\"width: " << iWidthOverall << "%;\">Geamtpkte</th>\n";
@@ -888,14 +896,14 @@ void CPageHTMLDriver::getTableDriverRaces(ostream &oStream)
 		// Track
 		oStream << "<td><div align=\"left\">" << Race->getRaceLocation(i) << "</div></td>\n";
 
-		//~ // Car
-		//~ oStream << "<td><div align=\"left\">" << Cars->getName(sCarAbr) << "</div></td>\n";
+		// Car
+		oStream << "<td><div align=\"left\">" << Cars->getName(sCarAbr) << "</div></td>\n";
 
-		//~ // Multi
-		//~ if (sCarAbr != "")
-			//~ oStream << "<td><div align=\"center\">" << rResult->getMult() << "</div></td>\n";
-		//~ else
-			//~ oStream << "<td><div align=\"center\">--</div></td>\n";
+		// StdWeight
+		if (sCarAbr != "")
+			oStream << "<td><div align=\"center\">" << rResult->getWeightChange() << "</div></td>\n";
+		else
+			oStream << "<td><div align=\"center\">--</div></td>\n";
 
 		// Race
 		if (rResult->getPoints() != 0)
@@ -961,6 +969,56 @@ void CPageHTMLDriver::getTableDriverRaces(ostream &oStream)
 	else if (Parameter->getNumberOfVoidResults() > 1)
 		oStream << "<span class=\"voids\">Streichergebnisse fliessen in Endabrechnung ein</span><br>\n";
 	oStream << "</div>\n";
+}
+
+void CPageHTMLDriver::getTableDriverCars(ostream &oStream)
+{
+	int iWidthCar = 15;
+	int iWidthWeightChange = 15;
+
+	oStream << "<table style=\"text-align: center; width: 100%;\" border=\"0\" cellpadding=\"1\" cellspacing=\"1\">\n";
+	oStream << "<tbody>\n";
+
+	// Title
+	oStream << "<tr>\n";
+	oStream << "<th scope=\"col\"; align=\"left\"; style=\"width: " << iWidthCar << "%;\">Fahrzeug</th>\n";
+	oStream << "<th scope=\"col\"; style=\"width: " << iWidthWeightChange << "%;\">Standardgewicht [kg]</th>\n";
+	oStream << "<th scope=\"col\"; style=\"width: " << iWidthWeightChange << "%;\">Gewicht [kg]</th>\n";
+	oStream << "</tr>\n";
+
+	// Data
+	int i;
+	for (i = 0; i < Drivers->getDriverCarCount(DriverLobbyName); i++)
+	{
+		string sCarAbr = Drivers->getDriverCarAbr(DriverLobbyName, i);
+		
+		// Line background
+		if (i % 2)
+			oStream << "<tr class=\"bgcolor1\">\n";
+		else
+			oStream << "<tr>\n";
+
+		// Car
+		oStream << "<td><div align=\"left\">" << Cars->getName(sCarAbr) << "</div></td>\n";
+
+		// StdWeight
+		if (sCarAbr != "")
+		{
+			oStream << "<td><div align=\"center\">" << Cars->getStdWeight(sCarAbr) << "</div></td>\n";
+			oStream << "<td><div align=\"center\">" << Drivers->getDriverCarWeight(DriverLobbyName, i) << "</div></td>\n";
+		}
+		else
+		{
+			oStream << "<td><div align=\"center\">--</div></td>\n";
+			oStream << "<td><div align=\"center\">--</div></td>\n";
+		}
+
+		oStream << "</tr>\n";
+
+	}
+
+	oStream << "</tbody>\n";
+	oStream << "</table>\n";	
 }
 
 /*!
@@ -1121,7 +1179,7 @@ void CPageHTMLRace::getTableRaceDrivers(ostream &oStream)
 	int iWidthOverallPos = 5;
 	int iWidthDriver = 15;
 	int iWidthCar = 15;
-	int iWidthMult = 5;
+	int iWidthWeightChange = 15;
 	int iWidthRacePos = 5;
 	int iWidthRacePoints = 5;
 	int iWidthOverall = 5;
@@ -1148,7 +1206,7 @@ void CPageHTMLRace::getTableRaceDrivers(ostream &oStream)
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthOverallPos << "%;\">Gesamtpos.</th>\n";
 	oStream << "<th scope=\"col\"; align=\"left\"; style=\"width: " << iWidthDriver << "%;\">Fahrer</th>\n";
 	oStream << "<th scope=\"col\"; align=\"left\"; style=\"width: " << iWidthCar << "%;\">Fahrzeug</th>\n";
-	oStream << "<th scope=\"col\"; style=\"width: " << iWidthMult << "%;\">Multi</th>\n";
+	oStream << "<th scope=\"col\"; style=\"width: " << iWidthWeightChange << "%;\">Gewichtsänderung [kg]</th>\n";
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthRacePos << "%;\">Rennpos.</th>\n";
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthRacePoints << "%;\">Rennpkte</th>\n";
 	oStream << "<th scope=\"col\"; style=\"width: " << iWidthOverall << "%;\">Geamtpkte</th>\n";
@@ -1186,7 +1244,7 @@ void CPageHTMLRace::getTableRaceDrivers(ostream &oStream)
 
 		// Multi
 		if (sCarAbr != "")
-			oStream << "<td><div align=\"center\">" << "TODO CPageHTMLRace::getTableRaceDrivers" << "</div></td>\n";
+			oStream << "<td><div align=\"center\">" << rResult->getWeightChange() << "</div></td>\n";
 		else
 			oStream << "<td><div align=\"center\">--</div></td>\n";
 
